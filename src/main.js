@@ -87,6 +87,7 @@ Apify.main(async () => {
                 // These options makes the enqueueUrls call stateful. It would be better to refactor this.
                 maxRequestsPerStartUrl,
                 requestsPerStartUrlCounter,
+                pseudoUrls:request.userData.pseudoUrls,
             };
 
             // Enqueue all links on the page
