@@ -56,7 +56,7 @@
             "type": "array",
             "description": "regex for the url you want to enqueue. Put /.*/ for crawling every url. Put /https://www.google.com/search?q=ye.*/ for every google query that begins with 'ye'",
             "prefill": [],
-            "editor": "pseudoUrls"
+            "editor": "stringList"
         },
         "considerChildFrames": {
             "title": "Probe frames",
