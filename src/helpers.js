@@ -15,7 +15,7 @@ async function extractUrlsFromPage(page, selector, sameDomain, urlDomain, pseudo
     const filteredLinks = allLinks.filter((url) => (sameDomain ? module.exports.getDomain(url) === urlDomain : true));
     //     we add the condition to match at least one pseudoUrl
     filteredLinks = filteredLinks.filter((url) => (
-        pseudoUrls.some( (pseudoUrl) => pseudoUrl.test(url) )
+        pseudoUrls.some( (pseudoUrl) => new RegExp(pseudoUrl).test(url) )
     ));
         
     log.info(`Found ${filteredLinks.length} links on ${page.url()}`);
