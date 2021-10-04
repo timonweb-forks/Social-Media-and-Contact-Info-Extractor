@@ -51,6 +51,13 @@
             "description": "If set, the actor will display a live view on the container URL, where you can monitor its progress. Note that the live view has a small performance overheads.",
             "default": false
         },
+        "pseudoUrls": {
+            "title": "Pseudo urls",
+            "type": "array",
+            "description": "regex for the url you want to enqueue. Put /.*/ for crawling every url. Put /https://www.google.com/search?q=ye.*/ for every google query that begins with 'ye'",
+            "prefill": [/.*/]
+
+        },
         "considerChildFrames": {
             "title": "Probe frames",
             "type": "boolean",
