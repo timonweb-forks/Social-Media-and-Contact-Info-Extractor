@@ -6,13 +6,18 @@ const { log } = Apify.utils;
 
 const { Request } = Apify;
 
-async function extractUrlsFromPage(page, selector, sameDomain, urlDomain) {
+async function extractUrlsFromPage(page, selector, sameDomain, urlDomain, pseudoUrls) {
     /* istanbul ignore next */
     const allLinks = await page.$$eval(selector, (linkEls) => linkEls
         .map((link) => link.href)
         .filter((href) => !!href));
 
-    const filteredLinks = allLinks.filter((url) => (sameDomain ? module.exports.getDomain(url) === urlDomain : true));
+    let filteredLinks = allLinks.filter((url) => (sameDomain ? module.exports.getDomain(url) === urlDomain : true));
+    //     we add the condition to match at least one pseudoUrl
+    filteredLinks = filteredLinks.filter((url) => (
+        pseudoUrls.some( (pseudoUrl) => new RegExp(pseudoUrl).test(url) )
+    ));
+        
     log.info(`Found ${filteredLinks.length} links on ${page.url()}`);
     return filteredLinks;
 }
@@ -132,9 +137,10 @@ module.exports = {
             startUrl,
             maxRequestsPerStartUrl,
             requestsPerStartUrlCounter,
+            pseudoUrls,
         } = options;
 
-        const urls = await extractUrlsFromPage(page, selector, sameDomain, urlDomain);
+        const urls = await extractUrlsFromPage(page, selector, sameDomain, urlDomain, pseudoUrls);
 
         const requestOptions = createRequestOptions(urls, { depth: depth + 1 });
 
