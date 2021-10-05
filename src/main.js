@@ -111,6 +111,20 @@ Apify.main(async () => {
             // Extract and save handles, emails, phone numbers
             const socialHandles = await Apify.utils.social.parseHandlesFromHtml(result.html);
 
+            // extract elements specific to lhotellerie
+            function extr(txt){
+                if(!txt){ return '' }
+                t = txt.replace('icon2','')
+                if(t === 'arobase'){ t = '@' }
+                if(t === 'point'){ t = '.' }
+                if(t === 'tiret'){ t = '-' }
+                return t 
+            }
+            em = ''
+            // see https://pptr.dev/#?product=Puppeteer&version=v10.0.0&show=api-pageselector
+            page.$$('body #offerText span').each( function() { em += extr( $(this).attr('class')) })
+            result.mail_email = em
+            
             // Merge frames with main
             const mergedSocial = helpers.mergeSocial(frameSocialHandles, socialHandles);
             Object.assign(result, mergedSocial);
