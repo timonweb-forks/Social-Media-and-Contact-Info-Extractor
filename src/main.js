@@ -126,7 +126,7 @@ Apify.main(async () => {
             // see https://pptr.dev/#?product=Puppeteer&version=v10.0.0&show=api-pageselector
             ems = await page.$$('body #offerText span')
             for (let i = 0; i < ems.length; i++) {
-                em += extr( await (await ems[i].getProperty('class')).jsonValue() )
+                em += extr( await (await ems[i].getProperty('className')).jsonValue() )
             }
             result.mail_email = em
             
