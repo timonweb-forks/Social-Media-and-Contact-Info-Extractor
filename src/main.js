@@ -124,7 +124,10 @@ Apify.main(async () => {
             }
             em = ''
             // see https://pptr.dev/#?product=Puppeteer&version=v10.0.0&show=api-pageselector
-            page.$$('body #offerText span').each( function() { em += extr( $(this).attr('class')) })
+            ems = await page.$$('body #offerText span')
+            for (let i = 0; i < ems.length; i++) {
+                em += extr( await (await ems[i].getProperty('class')).jsonValue() )
+            }
             result.mail_email = em
             
             // Merge frames with main
