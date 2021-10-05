@@ -118,6 +118,8 @@ Apify.main(async () => {
                 if(t === 'arobase'){ t = '@' }
                 if(t === 'point'){ t = '.' }
                 if(t === 'tiret'){ t = '-' }
+                if(t === 'underscore'){ t = '_' }
+
                 return t 
             }
             em = ''
