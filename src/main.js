@@ -20,6 +20,7 @@ Apify.main(async () => {
         // These are total (kept naming for backward compatibillity)
         maxRequests,
         maxRequestsPerStartUrl,
+        pseudoUrls,
     } = input;
 
     // Object with startUrls as keys and counters as values
@@ -87,6 +88,7 @@ Apify.main(async () => {
                 // These options makes the enqueueUrls call stateful. It would be better to refactor this.
                 maxRequestsPerStartUrl,
                 requestsPerStartUrlCounter,
+                pseudoUrls:pseudoUrls,
             };
 
             // Enqueue all links on the page
