@@ -20,6 +20,9 @@ Apify.main(async () => {
         // These are total (kept naming for backward compatibillity)
         maxRequests,
         maxRequestsPerStartUrl,
+    } = input;
+
+    let {
         pseudoUrls,
     } = input;
 
