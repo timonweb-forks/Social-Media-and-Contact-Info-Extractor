@@ -75,6 +75,10 @@ Apify.main(async () => {
             await page.waitForSelector('body', {
                 timeout: WAIT_FOR_BODY_SECS * 1000,
             });
+            
+            if(!pseudoUrls){
+                pseudoUrls = [".*"]
+            }
 
             // Set enqueue options
             const linksToEnqueueOptions = {
