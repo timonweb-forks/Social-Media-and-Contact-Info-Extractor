@@ -128,7 +128,7 @@ Apify.main(async () => {
 
             return page.goto(request.url, {
                 timeout: PAGE_GOTO_TIMEOUT_SECS * 1000,
-                waitUntil: 'domcontentloaded',
+                waitUntil: 'networkidle0',
             });
         },
     };
