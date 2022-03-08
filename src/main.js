@@ -103,32 +103,20 @@ Apify.main(async () => {
                 await helpers.enqueueUrls(linksToEnqueueOptions);
             }
 
-            // Crawl HTML frames
-            let frameSocialHandles = {};
-            if (considerChildFrames) {
-                frameSocialHandles = await helpers.crawlFrames(page);
-            }
-
             // Generate result
             const result = {};
-            result.html = await page.content();
-            result.depth = request.userData.depth;
             result.referrerUrl = request.userData.referrer;
             result.url = await page.url();
             result.domain = await helpers.getDomain(result.url);
 
             // Extract and save handles, emails, phone numbers
-            const socialHandles = await Apify.utils.social.parseHandlesFromHtml(result.html);
-
-            // Merge frames with main
-            const mergedSocial = helpers.mergeSocial(frameSocialHandles, socialHandles);
-            Object.assign(result, mergedSocial);
-
-            // Clean up
-            delete result.html;
+            const emails = await Apify.utils.social.emailsFromText(result.html);
 
             // Store results
-            await Apify.pushData(result);
+            for (let i in emails) {
+                result.email = emails[i]
+                await Apify.pushData(result);
+            }
         },
         handleFailedRequestFunction: async ({ request }) => {
             log.error(`Request ${request.url} failed 4 times`);
