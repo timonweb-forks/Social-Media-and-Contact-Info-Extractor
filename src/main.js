@@ -108,7 +108,10 @@ Apify.main(async () => {
             const url = await page.url();
 
             // Extract and save handles, emails, phone numbers
-            const emails = new Set(await Apify.utils.social.emailsFromText(html));
+            const possiblyDuplicateEmails = await Apify.utils.social.emailsFromText(html);
+            log.info("possiblyDuplicateEmails", possiblyDuplicateEmails);
+            const emails = new Set(possiblyDuplicateEmails);
+            log.info("emails", emails);
 
             // Store results
             for (let i in emails) {
