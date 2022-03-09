@@ -113,7 +113,7 @@ Apify.main(async () => {
             // Extract and save handles, emails, phone numbers
             const emails = await Apify.utils.social.emailsFromText(html);
             
-            log.info('html', {html})
+            log.info('html!', {html})
             log.info('emails', {emails})
 
             // Store results
