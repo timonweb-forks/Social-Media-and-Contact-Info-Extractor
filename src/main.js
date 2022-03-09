@@ -104,15 +104,16 @@ Apify.main(async () => {
             }
 
             // Generate result
+            const html = await page.content();
             const result = {};
             result.referrerUrl = request.userData.referrer;
             result.url = await page.url();
             result.domain = await helpers.getDomain(result.url);
 
             // Extract and save handles, emails, phone numbers
-            const emails = await Apify.utils.social.emailsFromText(result.html);
+            const emails = await Apify.utils.social.emailsFromText(html);
             
-            log.info('html', {html: result.html})
+            log.info('html', {html})
             log.info('emails', {emails})
 
             // Store results
