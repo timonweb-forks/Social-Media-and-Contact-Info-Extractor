@@ -105,21 +105,15 @@ Apify.main(async () => {
 
             // Generate result
             const html = await page.content();
-            const result = {};
-            result.referrerUrl = request.userData.referrer;
-            result.url = await page.url();
-            result.domain = await helpers.getDomain(result.url);
+            const url = await page.url();
 
             // Extract and save handles, emails, phone numbers
-            const emails = await Apify.utils.social.emailsFromText(html);
-            
-            log.info('html!', {html})
-            log.info('emails', {emails})
+            const emails = new Set(await Apify.utils.social.emailsFromText(html));
 
             // Store results
             for (let i in emails) {
                 result.email = emails[i]
-                await Apify.pushData(result);
+                await Apify.pushData({email: emails[i], url});
             }
         },
         handleFailedRequestFunction: async ({ request }) => {
